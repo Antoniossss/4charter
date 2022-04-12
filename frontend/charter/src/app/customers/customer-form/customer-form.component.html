@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <fieldset>
+    <legend>Customer</legend>
+    <div *ngIf="form.value.id">
+      <label>Id</label>
+      <span>{{form.value.id}}</span>
+    </div>
+    <div>
+      <label for="name">Name</label>
+      <input id="name" formControlName="name">
+    </div>
+  </fieldset>
+  <button (click)="onSaveClick()" *ngIf="!isLoading">SAVE</button>
+</form>

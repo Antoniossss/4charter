@@ -16,6 +16,10 @@ public interface PointsRepository {
 
     Long calcAllCustomerPoints(long l);
 
+    default List<PointsInMonth> calcCustomerPointsInMonths(Customer customer) {
+        return this.calcCustomerPointsInMonths(customer.getId());
+    }
+
     List<PointsInMonth> calcCustomerPointsInMonths(Long customerId);
 
 }
