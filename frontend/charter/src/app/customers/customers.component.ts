@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Customer, CustomersService} from "./customers.service";
 import {Router} from "@angular/router";
+import {NotifyService} from "../common/notify.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-customers',
@@ -11,7 +13,10 @@ export class CustomersComponent implements OnInit {
   loading = false;
   customers: CustomerRow[] = [];
 
-  constructor(private customerService: CustomersService, private navi: Router) {
+  constructor(private customerService: CustomersService,
+              private navi: Router,
+              private notify: NotifyService
+  ) {
   }
 
   ngOnInit(): void {
@@ -28,9 +33,11 @@ export class CustomersComponent implements OnInit {
 
   onDeleteClick(customer: CustomerRow) {
     customer.busy = true;
-    this.customerService.delete(customer).subscribe(removed => {
+    this.customerService.delete(customer).pipe(
+      finalize(() => customer.busy = false)
+    ).subscribe(removed => {
       this.customers = this.customers.filter(c => c.id != removed.id);
-    });
+    }, error => this.notify.consumeHttpError(error));
   }
 
   onCreateClick() {

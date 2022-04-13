@@ -1,5 +1,6 @@
 package charter.customer;
 
+import charter.purchase.PurchaseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import java.util.List;
 @Validated
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final PurchaseRepository purchaseRepository;
 
     public List<Customer> listCustomers() {
         return customerRepository.findAll();
@@ -27,6 +29,9 @@ public class CustomerService {
     @Transactional
     public Customer removeCustomer(Long id) {
         Customer customer = get(id);
+        if (purchaseRepository.existsByCustomerId(id)) {
+            throw new IllegalStateException("Cannot remove customer that has existing purchases: " + id);
+        }
         customerRepository.delete(customer);
         return customer;
     }

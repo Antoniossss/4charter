@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     List<Purchase> findAllByCustomerId(Long id);
+
+    boolean existsByCustomerId(Long id);
 }
