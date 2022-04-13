@@ -1,0 +1,37 @@
+<fieldset>
+  <legend>Points</legend>
+  <div>
+    <form [formGroup]="form">
+      <fieldset>
+        <legend>Filters</legend>
+        <div>
+          <label for="fromDate">From</label>
+          <input type="date" formControlName="from" id="fromDate"/>
+          <app-form-error [ctrl]="form.controls['from']"></app-form-error>
+        </div>
+        <div>
+          <label for="toDate">To</label>
+          <input type="date" formControlName="to" id="toDate" title="This fallsback always to the current timestamp as backend does the same so it stays consistent. So it is intended to not allow user to nullify this field"/>
+          <app-form-error [ctrl]="form.controls['to']"></app-form-error>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="results" *ngIf="results">
+    <h5>Total points {{results.total}}</h5>
+    <table>
+      <thead>
+      <th>Month</th>
+      <th>Points</th>
+      <th>Sum</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let inMonth of results.byMonth; let i=index">
+        <td>{{inMonth.localMonth}}</td>
+        <td>{{inMonth.points}}</td>
+        <td *ngIf="i==0" [rowSpan]="results.byMonth.length">{{results.totalInRange}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</fieldset>

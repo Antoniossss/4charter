@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {PointsFilter, Purchase, PurchasesService} from "./purchases.service";
 import {finalize, map, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './purchases.component.html',
   styleUrls: ['./purchases.component.scss'],
 })
-export class PurchasesComponent implements OnInit, AfterViewInit {
+export class PurchasesComponent implements OnInit {
   loading = true;
   purchases: PurchaseRow[] = [];
   selectedCustomerId?: number;
@@ -16,14 +16,10 @@ export class PurchasesComponent implements OnInit, AfterViewInit {
 
   constructor(private purchaseService: PurchasesService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-  }
-
-  ngAfterViewInit(): void {
     this.route.params.pipe(
       map(params => params['customerId']),
       switchMap(customerId => {
@@ -59,9 +55,14 @@ export class PurchasesComponent implements OnInit, AfterViewInit {
   dateInRange(purchaseDate: Date) {
     if (this.activeFilters) {
       return (purchaseDate >= (this.activeFilters.from ?? Number.MIN_VALUE)) &&
-        (purchaseDate <= (this.activeFilters.to ?? Number.MAX_VALUE))
+        (purchaseDate <= (this.activeFilters.to ?? Date.now()))
     }
     return this.showPoints;
+  }
+
+  onFiltersChange(filters: any) {
+    this.activeFilters = filters;
+    this.cdr.detectChanges();
   }
 }
 

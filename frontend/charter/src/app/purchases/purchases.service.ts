@@ -16,7 +16,6 @@ export class PurchasesService {
     if (customerId) {
       params = params.set("customerId", customerId.toString());
     }
-    console.log(params);
     return this.http.get<Purchase[]>("purchase", {params}).pipe(
       map(arr => arr.map(purchaseFromDto))
     );
@@ -48,7 +47,6 @@ export class PurchasesService {
   }
 
   fetchPoints(param: PointsFilter):Observable<CustomerPoints> {
-    console.log(param);
     let params = new HttpParams().append("customerId", param.customerId.toString());
     if (param.from) {
       params = params.append("from", param.from.toISOString())

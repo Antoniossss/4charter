@@ -39,7 +39,6 @@ export class PurchaseFormComponent implements OnInit {
       .subscribe(([data, customers]) => {
         const purchase = data['purchase'] as Purchase;
         const formattedDate = this.datePipe.transform(purchase.purchaseDate, "yyyy-MM-dd");
-        console.log("formatted??", formattedDate, purchase.purchaseDate.toISOString());
         if (purchase) {
           const toReset = {
             id: purchase.id,
@@ -75,7 +74,6 @@ export class PurchaseResolver implements Resolve<Purchase> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Purchase> | Promise<Purchase> | Purchase {
     const id = Number.parseInt(route.paramMap.get("id") as string, 10);
-    console.log("getting purhcase??", id);
     return this.purchases.get(id);
   }
 }

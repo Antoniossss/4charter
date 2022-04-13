@@ -17,7 +17,7 @@ export class RestHostInterceptor implements HttpInterceptor {
     url = this.env.endpoint + url;
     // const cloned = req.clone({url, params: req.params})
     const cloned = req.clone({url})
-    console.log(req.url, cloned.url);
+    // console.log(req.url, cloned.url);
     return next.handle(cloned);
   }
 

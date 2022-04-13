@@ -29,7 +29,7 @@
   </div>
 
   <div *ngIf="showPoints">
-    <app-points [customerId]="selectedCustomerId" (filtersChange)="activeFilters=$event"></app-points>
+    <app-points [customerId]="selectedCustomerId" (filtersChange)="onFiltersChange($event)"></app-points>
   </div>
 </div>
 
