@@ -24,6 +24,28 @@ In order to test build and run application you must have
 
 #### How to build app
 
-* 
+Ideally all you have to do is `mvn package` in the root of the project. If it does not work, I have messed something up and nothing can bo done about it (let me know)
+
+What could go wrong is the installation of frontend dependencies.You can try to go to `fronterd/charter` and run `npm install`. If that runs fine, maven build should pass now.
+
+#### How run the app
+
+Once `mvn pakcage` completes, do:
+```
+cd target
+java -Dspring.profiles.active=demo -jar 4Charter-1.0-SNAPSHOT.jar 
+```
+
+App should be accessible via `http://localhost:8080`. In the `demo` profile, application is using inmemory H2 database with some data in it. Running application without `demo` profile will use persistent (file backed), but empty storage
 
 
+#### Remarks 
+
+* Frontend validation is only partially done
+* Frontend error handling is close to none
+* Backend validation is just bad right now as well as error reporting
+* I wonder if this task was intended to be completed in hours or days. Shitload of boilerplate has to be produced here
+* Frontend literally have no tests. I didn't want to spend more time on this
+* Backend tests cover nicely points calculation. Rest of the test code is either missing or tests more framework than actually custom logic. Didn want to spend more time on it as well.
+* I couldn't make my mind if I should use everywhere @RequestParam or rather JSON DTOs. Ideally both could be supported. Especially in case of 2-4 params only
+* I probably did something wrong with springdoc

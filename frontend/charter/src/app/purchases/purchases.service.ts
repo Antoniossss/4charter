@@ -54,7 +54,6 @@ export class PurchasesService {
     if (param.to) {
       params = params.append("to", param.to.toISOString());
     }
-
     return this.http.get<CustomerPoints>("purchase/points", {params})
   }
 }

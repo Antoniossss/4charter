@@ -18,12 +18,12 @@
     </form>
   </div>
   <div class="results" *ngIf="results">
-    <h5>Total points {{results.total}}</h5>
+    <h5>Grand total points {{results.total}}</h5>
     <table>
       <thead>
       <th>Month</th>
       <th>Points</th>
-      <th>Sum</th>
+      <th>Sum in range</th>
       </thead>
       <tbody>
       <tr *ngFor="let inMonth of results.byMonth; let i=index">

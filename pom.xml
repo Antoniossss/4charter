@@ -57,7 +57,11 @@
             <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+<!--            <version>1.6.7</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <properties>
@@ -81,6 +85,20 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <executions>
+                    <execution>
+                        <id>install-frontend-dependencies</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>npx</executable>
+                            <arguments>
+                                <argument>npm</argument>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>build-frontend-app</id>
                         <phase>generate-resources</phase>
