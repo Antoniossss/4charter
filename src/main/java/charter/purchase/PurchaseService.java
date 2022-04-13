@@ -5,6 +5,7 @@ import charter.customer.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -21,6 +22,10 @@ public class PurchaseService {
 
     public List<Purchase> listCustomerPurchases(Long customerId) {
         return purchaseRepository.findAllByCustomerId(customerId);
+    }
+
+    public List<Purchase> listPurchases() {
+        return purchaseRepository.findAll();
     }
 
     /*

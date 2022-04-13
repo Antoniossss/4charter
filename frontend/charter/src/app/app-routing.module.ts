@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CustomersComponent} from "./customers/customers.component";
 import {PurchasesComponent} from "./purchases/purchases.component";
 import {CustomerFormComponent, CustomerResolver} from "./customers/customer-form/customer-form.component";
+import {PurchaseFormComponent, PurchaseResolver} from "./purchases/purchase-form/purchase-form.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,16 @@ const routes: Routes = [
       {
         path: '',
         component: PurchasesComponent
+      }, {
+        path: "create",
+        component: PurchaseFormComponent,
+      },
+      {
+        path: "edit/:id",
+        component: PurchaseFormComponent,
+        resolve: {
+          purchase: PurchaseResolver
+        }
       }
     ]
   }

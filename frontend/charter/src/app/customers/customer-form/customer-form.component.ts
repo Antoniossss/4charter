@@ -27,7 +27,7 @@ export class CustomerFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       if (data['customer']) {
-        this.form.setValue(data['customer']);
+        this.form.reset(data['customer']);
       }
     })
   }

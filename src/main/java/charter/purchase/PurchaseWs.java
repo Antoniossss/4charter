@@ -1,11 +1,14 @@
 package charter.purchase;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
+import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 @RestController
 @RequestMapping("purchase")
@@ -20,14 +23,25 @@ public class PurchaseWs {
         purchase.setPurchaseDate(dto.purchaseTime);
         return purchaseService.createPurchase(dto.customerId, purchase);
     }
+    @PutMapping
+    public Purchase updatePurchase(@RequestBody Purchase purchase){
+        return purchaseService.updatePurchase(purchase);
+    }
 
     @GetMapping("{id}")
     public Purchase getPurchase(@PathVariable("id") Long id) {
         return purchaseService.getPurchase(id);
     }
 
+
+    @GetMapping
+    public List<Purchase> listPurchases() {
+        return purchaseService.listPurchases();
+    }
+
 }
 
+@Data
 class NewPurchaseDto {
     @NotEmpty
     Long customerId;

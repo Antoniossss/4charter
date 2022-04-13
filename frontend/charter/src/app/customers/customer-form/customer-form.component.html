@@ -11,4 +11,5 @@
     </div>
   </fieldset>
   <button (click)="onSaveClick()" *ngIf="!isLoading">SAVE</button>
+  <span *ngIf="isLoading">Saving</span>
 </form>
