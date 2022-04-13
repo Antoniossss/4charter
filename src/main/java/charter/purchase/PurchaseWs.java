@@ -20,17 +20,23 @@ public class PurchaseWs {
     public Purchase newPurchase(@RequestBody NewPurchaseDto dto) {
         Purchase purchase = new Purchase();
         purchase.setPrice(dto.price);
-        purchase.setPurchaseDate(dto.purchaseTime);
+        purchase.setPurchaseDate(dto.purchaseDate);
         return purchaseService.createPurchase(dto.customerId, purchase);
     }
+
     @PutMapping
-    public Purchase updatePurchase(@RequestBody Purchase purchase){
+    public Purchase updatePurchase(@RequestBody Purchase purchase) {
         return purchaseService.updatePurchase(purchase);
     }
 
     @GetMapping("{id}")
     public Purchase getPurchase(@PathVariable("id") Long id) {
         return purchaseService.getPurchase(id);
+    }
+
+    @DeleteMapping("{id}")
+    public Purchase deletePurchase(@PathVariable("id") Long id) {
+        return purchaseService.deletePurchase(id);
     }
 
 
@@ -45,7 +51,7 @@ public class PurchaseWs {
 class NewPurchaseDto {
     @NotEmpty
     Long customerId;
-    Instant purchaseTime;
+    Instant purchaseDate;
     @NotEmpty
     Double price;
 }

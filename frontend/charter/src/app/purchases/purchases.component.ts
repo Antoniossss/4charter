@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Purchase, PurchasesService} from "./purchases.service";
 import {finalize} from "rxjs";
 import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-purchases',
@@ -34,8 +33,11 @@ export class PurchasesComponent implements OnInit {
     this.router.navigate(["purchases", "edit", purchase.id]);
   }
 
-  onDeleteClick(purchase: Purchase) {
-
+  onDeleteClick(purchase: PurchaseRow) {
+    purchase.busy = true;
+    this.purchaseService.delete(purchase)
+      .pipe(finalize(() => purchase.busy = false))
+      .subscribe(deleted => this.purchases = this.purchases.filter(p => p.id != deleted.id));
   }
 }
 
