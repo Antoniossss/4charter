@@ -7,6 +7,7 @@
     <th>Name</th>
     <th>Edit</th>
     <th>Delete</th>
+    <th>Extra actions</th>
     </thead>
     <tbody>
     <tr *ngFor="let customer of customers">
@@ -17,6 +18,9 @@
       </td>
       <td>
         <button (click)="onDeleteClick(customer)" *ngIf="!customer.busy">Delete</button>
+      </td>
+      <td>
+        <button (click)="showClientPurchases(customer)">Purchases</button>
       </td>
     </tr>
     </tbody>

@@ -33,16 +33,18 @@ const routes: Routes = [
         path: '',
         component: PurchasesComponent
       }, {
+        path: "customer/:customerId",
+        component: PurchasesComponent,
+      }, {
         path: "create",
         component: PurchaseFormComponent,
-      },
-      {
+      }, {
         path: "edit/:id",
         component: PurchaseFormComponent,
         resolve: {
           purchase: PurchaseResolver
         }
-      }
+      },
     ]
   }
 ];

@@ -43,6 +43,10 @@ export class CustomersComponent implements OnInit {
   onCreateClick() {
     this.navi.navigate(["customers", "create"]);
   }
+
+  showClientPurchases(customer: CustomerRow) {
+    this.navi.navigate(['purchases', 'customer', customer.id]);
+  }
 }
 
 interface CustomerRow extends Customer {

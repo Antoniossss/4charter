@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,6 +50,29 @@ public class CustomPointsRepositoryImpl implements PointsRepository {
                 "SELECT YEAR(p.purchaseDate) as y, MONTH(p.purchaseDate) as m, " + SUM_POINTS_RULE +
                         " FROM Purchase p WHERE p.customer.id=:customerId GROUP BY y,m ORDER BY y ASC,m ASC"
         ).setParameter("customerId", customerId);
+        return ((Stream<Object[]>) query.getResultStream())
+                .map(row -> {
+                    LocalDate date = LocalDate.of(((Integer) row[0]), ((Integer) row[1]).intValue(), 1);
+                    Long points = ((Double) row[2]).longValue();
+                    return new PointsInMonth(date, points);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PointsInMonth> calcCustomerPointsInMonthsInRange(Long customerId, Instant from, Instant to) {
+        if (from == null) {
+            from = Instant.ofEpochSecond(0);
+        }
+        if (to == null) {
+            to = Instant.now();
+        }
+        Query query = entityManager.createQuery(
+                        "SELECT YEAR(p.purchaseDate) as y, MONTH(p.purchaseDate) as m, " + SUM_POINTS_RULE +
+                                " FROM Purchase p WHERE p.customer.id=:customerId AND p.purchaseDate BETWEEN :from AND :to GROUP BY y,m ORDER BY y ASC,m ASC"
+                ).setParameter("customerId", customerId)
+                .setParameter("from", from)
+                .setParameter("to", to);
         return ((Stream<Object[]>) query.getResultStream())
                 .map(row -> {
                     LocalDate date = LocalDate.of(((Integer) row[0]), ((Integer) row[1]).intValue(), 1);

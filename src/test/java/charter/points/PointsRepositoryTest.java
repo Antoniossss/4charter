@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -49,6 +50,23 @@ class PointsRepositoryTest {
 
         assertEquals(274, results.get(2).points);
         assertEquals(LocalDate.of(2022, 5, 1), results.get(2).localMonth);
+    }
+
+    @Test
+    public void canSumAndGroupInGivenRange() {
+        List<PointsInMonth> results;
+        //limit from bottom
+        results = pointsRepository.calcCustomerPointsInMonthsInRange(1L,
+                null,
+                Instant.parse("2022-04-30T00:00:00Z"));
+        assertEquals(2, results.size());
+
+        //limit from top
+        results = pointsRepository.calcCustomerPointsInMonthsInRange(1L,
+                Instant.parse("2022-04-01T00:00:00Z"),
+                Instant.parse("2022-04-30T00:00:00Z"));
+        assertEquals(1, results.size());
+
     }
 
 

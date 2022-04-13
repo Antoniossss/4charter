@@ -1,5 +1,7 @@
 package charter.purchase;
 
+import charter.points.PointsInMonth;
+import charter.points.PointsService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 public class PurchaseWs {
 
     private final PurchaseService purchaseService;
+    private final PointsService pointsService;
 
     @PostMapping
     public Purchase newPurchase(@RequestBody NewPurchaseDto dto) {
@@ -39,10 +42,24 @@ public class PurchaseWs {
         return purchaseService.deletePurchase(id);
     }
 
-
     @GetMapping
-    public List<Purchase> listPurchases() {
-        return purchaseService.listPurchases();
+    public List<Purchase> listPurchases(@RequestParam(value = "customerId", required = false) Long id) {
+        if (id == null) {
+            return purchaseService.listPurchases();
+        }
+        return purchaseService.listCustomerPurchases(id);
+    }
+
+    @GetMapping("points")
+    public CustomerPointsDto listUserPoints(
+            @RequestParam(value = "customerId", required = true) Long customerId,
+            @RequestParam(value = "from", required = false) Instant from,
+            @RequestParam(value = "to", required = false) Instant to) {
+        CustomerPointsDto ret = new CustomerPointsDto();
+        ret.setTotal(pointsService.calcAllCustomerPoints(customerId));
+        ret.setByMonth(pointsService.calcCustomerPointsEarnedInDateRange(customerId, from, to));
+        ret.setTotalInRange(ret.getByMonth().stream().mapToLong(PointsInMonth::getPoints).sum());
+        return ret;
     }
 
 }
@@ -54,4 +71,11 @@ class NewPurchaseDto {
     Instant purchaseDate;
     @NotEmpty
     Double price;
+}
+
+@Data
+class CustomerPointsDto {
+    Long total;
+    Long totalInRange;
+    List<PointsInMonth> byMonth;
 }

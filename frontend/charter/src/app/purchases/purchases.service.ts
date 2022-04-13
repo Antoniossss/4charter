@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Customer} from "../customers/customers.service";
 import {map, Observable} from "rxjs";
 
@@ -11,8 +11,13 @@ export class PurchasesService {
   constructor(private http: HttpClient) {
   }
 
-  listPurchases(): Observable<Purchase[]> {
-    return this.http.get<Purchase[]>("purchase").pipe(
+  listPurchases(customerId?: number): Observable<Purchase[]> {
+    let params = new HttpParams();
+    if (customerId) {
+      params = params.set("customerId", customerId.toString());
+    }
+    console.log(params);
+    return this.http.get<Purchase[]>("purchase", {params}).pipe(
       map(arr => arr.map(purchaseFromDto))
     );
   }
@@ -41,6 +46,36 @@ export class PurchasesService {
   delete(purchase: Purchase) {
     return this.http.delete<Purchase>(`purchase/${purchase.id}`).pipe(map(purchaseFromDto));
   }
+
+  fetchPoints(param: PointsFilter):Observable<CustomerPoints> {
+    console.log(param);
+    let params = new HttpParams().append("customerId", param.customerId.toString());
+    if (param.from) {
+      params = params.append("from", param.from.toISOString())
+    }
+    if (param.to) {
+      params = params.append("to", param.to.toISOString());
+    }
+
+    return this.http.get<CustomerPoints>("purchase/points", {params})
+  }
+}
+
+export interface CustomerPoints {
+  total: number;
+  totalInRange: number;
+  byMonth: PointsInMonth[];
+}
+
+export interface PointsInMonth {
+  localMonth: string;
+  points: number;
+}
+
+export interface PointsFilter {
+  customerId: number;
+  from: Date | null;
+  to: Date | null
 }
 
 export function purchaseFromDto(dto: any) {

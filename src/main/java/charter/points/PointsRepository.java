@@ -22,4 +22,6 @@ public interface PointsRepository {
 
     List<PointsInMonth> calcCustomerPointsInMonths(Long customerId);
 
+    List<PointsInMonth> calcCustomerPointsInMonthsInRange(Long customerId,Instant from, Instant to);
+
 }

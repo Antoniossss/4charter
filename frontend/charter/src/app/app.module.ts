@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RestHostInterceptor} from "./rest-host-interceptor";
 import {PurchaseFormComponent, PurchaseResolver} from './purchases/purchase-form/purchase-form.component';
 import {FormErrorComponent} from './common/form-error/form-error.component';
+import { PointsComponent } from './purchases/points/points.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {FormErrorComponent} from './common/form-error/form-error.component';
     PurchasesComponent,
     CustomerFormComponent,
     PurchaseFormComponent,
-    FormErrorComponent
+    FormErrorComponent,
+    PointsComponent
   ],
   imports: [
     BrowserModule,

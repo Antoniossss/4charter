@@ -1,28 +1,35 @@
 <p *ngIf="loading">Loading purchases</p>
-<div *ngIf="!loading">
-  <button (click)="onCreateClick()">NEW PURCHASE</button>
-  <table>
-    <thead>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Date</th>
-    <th>Edit</th>
-    <th>Delete</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let purchase of purchases">
-      <td>{{purchase.id}}</td>
-      <td>{{purchase.customer.name}}</td>
-      <td>{{purchase.price}}</td>
-      <td>{{purchase.purchaseDate | date:"yyyy-MM-dd"}}</td>
-      <td>
-        <button (click)="onEditClick(purchase)">Edit</button>
-      </td>
-      <td>
-        <button (click)="onDeleteClick(purchase)" *ngIf="!purchase.busy">Delete</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div *ngIf="!loading" class="content">
+  <div>
+    <button (click)="onCreateClick()">NEW PURCHASE</button>
+    <table>
+      <thead>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Date</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let purchase of purchases">
+        <td>{{purchase.id}}</td>
+        <td>{{purchase.customer.name}}</td>
+        <td>{{purchase.price}}</td>
+        <td [class.active]="dateInRange(purchase.purchaseDate)">{{purchase.purchaseDate | date:"yyyy-MM-dd"}}</td>
+        <td>
+          <button (click)="onEditClick(purchase)">Edit</button>
+        </td>
+        <td>
+          <button (click)="onDeleteClick(purchase)" *ngIf="!purchase.busy">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="showPoints">
+    <app-points [customerId]="selectedCustomerId" (filtersChange)="activeFilters=$event"></app-points>
+  </div>
 </div>
+
