@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,8 +17,8 @@ public class CustomPointsRepositoryImpl implements PointsRepository {
 
     private final EntityManager entityManager;
     //probably can be reused as CrteriaQuery or stored procedure
-    private static final String SUM_POINTS_RULE = "SUM(CASE WHEN p.price>50 AND p.price <=100 THEN (p.price - 50) " +
-            "WHEN p.price>100 THEN (50+(p.price-100)*2) " +
+    private static final String SUM_POINTS_RULE = "SUM(CASE WHEN p.price>50 AND p.price <=100 THEN (FLOOR(p.price) - 50) " +
+            "WHEN p.price>100 THEN (50+(FLOOR(p.price)-100)*2) " +
             "ELSE 0 " +
             "END) AS points ";
 
