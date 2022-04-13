@@ -1,5 +1,5 @@
 import {Component, Injectable, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Customer, CustomersService} from "../customers.service";
 import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from "@angular/router";
 import {finalize, Observable} from "rxjs";
@@ -20,7 +20,7 @@ export class CustomerFormComponent implements OnInit {
   ) {
     this.form = fb.group({
       id: null,
-      name: null
+      name: [null, Validators.required]
     })
   }
 

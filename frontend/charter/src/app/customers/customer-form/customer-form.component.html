@@ -8,6 +8,7 @@
     <div>
       <label for="name">Name</label>
       <input id="name" formControlName="name">
+      <app-form-error [ctrl]="form.controls['name']"></app-form-error>
     </div>
   </fieldset>
   <button (click)="onSaveClick()" *ngIf="!isLoading">SAVE</button>

@@ -1,0 +1,28 @@
+<form [formGroup]="form">
+  <fieldset>
+    <legend>Purchase</legend>
+    <div *ngIf="form.value.id">
+      <label>Id</label>
+      <span>{{form.value.id}}</span>
+    </div>
+    <div>
+      <label for="customer">Customer</label>
+      <select formControlName="customer" id="customer">
+        <option *ngFor="let customer of allCustomers | async" [ngValue]="customer">{{customer.name}} (#{{customer.id}})</option>
+      </select>
+      <app-form-error [ctrl]="form.controls['customer']"></app-form-error>
+    </div>
+    <div>
+      <label for="date">Purchase date</label>
+      <input type="date" id="date" formControlName="purchaseDate" #date>
+      <app-form-error [ctrl]="form.controls['purchaseDate']"></app-form-error>
+    </div>
+    <div>
+      <label for="price">Price</label>
+      <input type="number" id="price" formControlName="price">
+      <app-form-error [ctrl]="form.controls['price']"></app-form-error>
+    </div>
+
+  </fieldset>
+  <button (click)="onSaveClick()" *ngIf="!isLoading" [disabled]="form.invalid">SAVE</button>
+</form>
