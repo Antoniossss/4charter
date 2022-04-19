@@ -1,16 +1,3 @@
-### Remarks
-
-* Frontend validation is only partially done
-* Frontend error handling is close to none
-* Backend validation is just bad right now as well as error reporting
-* I wonder if this task was intended to be completed in hours or days. A lot of boilerplate had to be produced here
-* Frontend literally have no tests. I didn't want to spend more time on this
-* Backend tests cover nicely points calculation. Rest of the test code is either missing or tests more framework than actually custom logic. Didn't want to spend more time on it as well.
-* I couldn't make my mind if I should use everywhere @RequestParam or rather JSON DTOs. Ideally both could be supported. Especially in case of 2-4 params only
-* I probably did something wrong with springdoc
-* In general, I am fully aware of the *submission checklist* and it is completed about half the way due to lack of more of freetime
-
-
 
 #### The task
 
